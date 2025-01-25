@@ -1,5 +1,6 @@
 package com.cleanordersystem.authentication.core.domain.entity;
 
+import com.cleanordersystem.authentication.core.domain.enums.RolesEnum;
 import com.cleanordersystem.authentication.core.domain.enums.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -52,6 +53,6 @@ public class User {
     @Column(name = "user_type", nullable = false)
     private UserType userType;
 
-    @Column(name = "owner", nullable = false)
-    private boolean owner;
+    @Column(name = "Role of user", nullable = false)
+    private RolesEnum userRole;
 }
