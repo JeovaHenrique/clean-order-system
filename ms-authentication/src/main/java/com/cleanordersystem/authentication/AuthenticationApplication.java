@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.application;
+package com.cleanordersystem.authentication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
