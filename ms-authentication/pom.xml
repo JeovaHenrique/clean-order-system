@@ -175,10 +175,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.cleanordersystem.authentication</mainClass>
+					<mainClass>com.cleanordersystem.authentication.AuthenticationApplication</mainClass>
 					<layers>
-						<enabled>true</enabled>
-						<configuration>${project.basedir}/src/layers.xml</configuration>
+						<enabled>false</enabled>
+<!--						<configuration>${project.basedir}/src/layers.xml</configuration>-->
 					</layers>
 					<excludes>
 						<exclude>
@@ -186,8 +186,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<!--suppress UnresolvedMavenProperty -->
 					<jvmArguments>-Dspring.application.admin.enabled=true
-						-Dspring.profiles.active=${spring.profiles.active}
+						-Dspring.profiles.active=true
 					</jvmArguments>
 				</configuration>
 				<executions>

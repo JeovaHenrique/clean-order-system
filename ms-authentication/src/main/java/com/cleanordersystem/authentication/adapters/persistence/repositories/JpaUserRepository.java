@@ -24,8 +24,8 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByEmail(String cpfOrEmail) {
-        return jpaRepo.findByCpfUserOrEmail(cpfOrEmail).map(this::toModel);
+    public Optional<User> findByEmail(String email) {
+        return jpaRepo.findByEmail(email).map(this::toModel);
     }
 
     @Override
@@ -34,16 +34,16 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public void updatePassword(String cpfOrEmail, String newPassword) {
-        jpaRepo.findByCpfUserOrEmail(cpfOrEmail).ifPresent(user -> {
+    public void updatePassword(String email, String newPassword) {
+        jpaRepo.findByEmail(email).ifPresent(user -> {
             user.setPassword(newPassword);
             jpaRepo.save(user);
         });
     }
 
     @Override
-    public void updateUserInfo(String cpfOrEmail, String username, String email, RolesEnum role) {
-        jpaRepo.findByCpfUserOrEmail(cpfOrEmail).ifPresent(user -> {
+    public void updateUserInfo(String email, String username, RolesEnum role) {
+        jpaRepo.findByEmail(email).ifPresent(user -> {
             user.setUsername(username);
             user.setEmail(email);
             user.setUserRole(role);
@@ -52,8 +52,8 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public void deleteByCpf(String cpf) {
-        jpaRepo.deleteByCpfUserOrEmail(cpf);
+    public void deleteByEmail(String email) {
+        jpaRepo.deleteByEmail(email);
     }
 
     private User toModel(UserEntity entity) {

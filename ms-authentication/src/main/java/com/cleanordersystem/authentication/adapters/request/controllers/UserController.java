@@ -50,7 +50,7 @@ public class UserController {
         Optional<User> user = userService.findByEmail(email);
 
         if(user.isPresent()) {
-            userService.deleteByCpf(email);
+            userService.deleteByEmail(email);
             return ResponseEntity.noContent().build();
         }
 

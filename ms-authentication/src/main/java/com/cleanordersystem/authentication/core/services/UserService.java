@@ -32,8 +32,8 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void deleteByCpf(String findByCpfOrEmail) {
-        userRepository.deleteByCpf(findByCpfOrEmail);
+    public void deleteByEmail(String email) {
+        userRepository.deleteByEmail(email);
     }
 
     @Transactional
