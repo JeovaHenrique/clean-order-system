@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class LoginRequest {
     @NotBlank(message = "O CPF ou Email não pode estar em branco")
-    private String cpfOrEmail;
+    private String email;
 
     @NotBlank(message = "A senha não pode estar em branco")
     private String password;

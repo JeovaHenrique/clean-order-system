@@ -1,18 +1,18 @@
 package com.cleanordersystem.authentication.adapters.request.controllers;
 
-import com.cleanordersystem.authentication.adapters.request.dto.ChangePasswordRequest;
 import com.cleanordersystem.authentication.adapters.request.dto.LoginRequest;
-import com.cleanordersystem.authentication.adapters.request.dto.UpdateProfileRequest;
+import com.cleanordersystem.authentication.adapters.request.dto.RefreshTokenRequest;
+import com.cleanordersystem.authentication.adapters.request.dto.RegisterRequest;
+import com.cleanordersystem.authentication.adapters.response.AuthenticationResponse;
+import com.cleanordersystem.authentication.adapters.response.LogoutResponse;
 import com.cleanordersystem.authentication.core.services.AuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -22,13 +22,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request.getCpfOrEmail(), request.getPassword()));
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 
-    @PutMapping("/change-password")
-    public ResponseEntity<Void> changePassword(@RequestBody ChangePasswordRequest request) {
-        authService.changePassword(request);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(authService.refreshToken(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout(@RequestParam String email) {
+        return ResponseEntity.ok(authService.logout(email));
     }
 }

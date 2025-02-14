@@ -1,12 +1,7 @@
 package com.cleanordersystem.authentication.adapters.persistence.entities;
 
 import com.cleanordersystem.authentication.core.domain.enums.RolesEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +15,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class UserEntity {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "email", nullable = false, unique = true)
     @Email
     private String email;
@@ -35,4 +32,8 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private RolesEnum userRole;
+
+    @Column(name = "jwtSecret", nullable = false)
+    private String jwtSecret;
+
 }
