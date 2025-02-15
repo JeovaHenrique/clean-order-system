@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.adapters.request.dto;
+package com.cleanordersystem.authentication.adapters.in.dto;
 
 import com.cleanordersystem.authentication.core.domain.enums.RolesEnum;
 import jakarta.validation.constraints.Email;

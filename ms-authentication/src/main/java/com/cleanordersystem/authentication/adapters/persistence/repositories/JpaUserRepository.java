@@ -4,7 +4,7 @@ import com.cleanordersystem.authentication.adapters.persistence.entities.UserEnt
 import com.cleanordersystem.authentication.adapters.persistence.mappes.UserMapper;
 import com.cleanordersystem.authentication.core.domain.enums.RolesEnum;
 import com.cleanordersystem.authentication.core.domain.models.User;
-import com.cleanordersystem.authentication.core.domain.ports.UserRepository;
+import com.cleanordersystem.authentication.core.domain.ports.out.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
 package com.cleanordersystem.authentication.config.security;
 
-import com.cleanordersystem.authentication.core.services.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

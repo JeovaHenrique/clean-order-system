@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.adapters.request.dto;
+package com.cleanordersystem.authentication.adapters.in.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

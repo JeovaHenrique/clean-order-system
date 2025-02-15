@@ -1,8 +1,9 @@
 package com.cleanordersystem.authentication.core.services;
 
-import com.cleanordersystem.authentication.adapters.request.dto.UpdateProfileRequest;
+import com.cleanordersystem.authentication.adapters.in.dto.UpdateProfileRequest;
 import com.cleanordersystem.authentication.core.domain.models.User;
-import com.cleanordersystem.authentication.core.domain.ports.UserRepository;
+import com.cleanordersystem.authentication.core.domain.ports.in.UserUseCase;
+import com.cleanordersystem.authentication.core.domain.ports.out.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserUseCase {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -21,14 +22,17 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    @Override
     public void deleteByEmail(String email) {
         userRepository.deleteByEmail(email);
     }
 
+    @Override
     @Transactional
     public void updateUserProfile(String email, UpdateProfileRequest request) {
         User user = userRepository.findByEmail(email)

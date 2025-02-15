@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.adapters.request.dto;
+package com.cleanordersystem.authentication.adapters.in.dto;
 
 public class RefreshTokenRequest {
 

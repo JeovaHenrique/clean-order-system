@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.core.domain.ports;
+package com.cleanordersystem.authentication.core.domain.ports.out;
 
 import com.cleanordersystem.authentication.core.domain.enums.RolesEnum;
 import com.cleanordersystem.authentication.core.domain.models.User;

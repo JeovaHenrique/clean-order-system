@@ -14,52 +14,93 @@ O **Clean Order System - Authentication** é um microsserviço responsável pela
 - **Lombok**
 - **MapStruct**
 - **Hibernate & JPA**
-- **Banco de Dados PostgreSQL**
+- **Banco de Dados H2 / PostgreSQL**
 - **Docker** (para containerização)
 
-## ⚙️ Funcionalidades Implementadas
+## 🏗️ Arquitetura do Projeto
 
-- 📌 **Registro de Usuários**
-- 🔐 **Autenticação com JWT**
-- 🔄 **Renovação de Token**
-- ✨ **Autorizacão baseada em perfis de usuários (Roles)**
-- 📩 **Validação de credenciais e regras de senha**
-- 🔄 **Recuperação e Redefinição de Senha**
+O microsserviço segue a **Clean Architecture**, garantindo um design modular e de fácil manutenção. A estrutura do projeto é organizada da seguinte forma:
+
+```
+src/
+├── main/
+│   ├── java/com/cleanordersystem/authentication/
+│   │   ├── adapters/         # Adaptadores para persistência e mapeamento
+│   │   │   ├── in/            # Interfaces de entrada (controladores, DTOs)
+│   │   │   │   ├── controllers/
+│   │   │   │   │   ├── AuthenticationController.java
+│   │   │   │   │   ├── UserController.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── ChangePasswordRequest.java
+│   │   │   │   │   ├── LoginRequest.java
+│   │   │   │   │   ├── RefreshTokenRequest.java
+│   │   │   │   │   ├── RegisterRequest.java
+│   │   │   │   │   ├── UpdateProfileRequest.java
+│   │   │   ├── out/           # Interfaces de saída (repositórios, serviços externos)
+│   │   │   │   ├── AuthenticationResponse.java
+│   │   │   │   ├── LogoutResponse.java
+│   │   │   ├── persistence/
+│   │   │   │   ├── entities/
+│   │   │   │   │   ├── UserEntity.java
+│   │   │   │   ├── mappers/
+│   │   │   │   │   ├── UserMapper.java
+│   │   │   │   ├── repositories/
+│   │   │   │   │   ├── JpaUserRepository.java
+│   │   │   │   │   ├── JpaUserRepositorySpringData.java
+│   │   ├── config/            # Configurações de segurança
+│   │   │   ├── security/
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── JwtService.java
+│   │   │   │   ├── SecurityConfig.java
+│   │   ├── core/              # Lógica de negócios e domínio
+│   │   │   ├── constants/
+│   │   │   │   ├── TokenConstants.java
+│   │   │   ├── domain/
+│   │   │   │   ├── enums/
+│   │   │   │   ├── RolesEnum.java
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── User.java
+│   │   │   │   ├── ports/
+│   │   │   │   │   ├── in/
+│   │   │   │   │   │   ├── AuthenticationUseCase.java
+│   │   │   │   │   │   ├── UserUseCase.java
+│   │   │   │   │   ├── out/
+│   │   │   │   │   │   ├── UserRepository.java
+│   │   │   ├── service/
+│   │   │   │   ├── AuthenticationService.java
+│   │   │   │   ├── CustomUserDetailsService.java
+│   │   │   │   ├── UserService.java
+│   │   ├── AuthenticationApplication.java
+├── resources/                 # Arquivos de configuração
+│   ├── application-h2.yml
+│   ├── application-postgre-sql.yml
+pom.xml                        # Gerenciamento de dependências
+docker-compose.yml             # Configuração de containerização
+Dockerfile                     # Configuração de containerização
+README.md                      # Documentação do projeto
+```
 
 ## 📜 Como Rodar o Projeto
 
-### 1️⃣ Configuração do Banco de Dados
+### 1️⃣ Escolha o Profile do Banco de Dados
 
-Certifique-se de ter um banco **PostgreSQL** rodando e configure o **application.yml**:
+Este microsserviço suporta **H2 (memória)** e **PostgreSQL**. Escolha o perfil adequado ao iniciar a aplicação.
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/clean_order_system_auth
-    username: seu_usuario
-    password: sua_senha
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+#### 🔹 Usando H2 (Banco em Memória)
+**Windows (PowerShell):**
+```powershell
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=h2"
 ```
 
-### 2️⃣ Subindo o Microsserviço
+#### 🔹 Usando PostgreSQL(Docker)
+**Windows (PowerShell):**
+```powershell
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=postgre-sql"
+```
 
-#### 🔹 Via Docker
-
+### 2️⃣ Subindo o Microsserviço com Docker
 ```sh
 docker-compose up -d
-```
-
-#### 🔹 Sem Docker (Maven)
-
-```sh
-mvn spring-boot:run
 ```
 
 ## 📡 Endpoints Principais

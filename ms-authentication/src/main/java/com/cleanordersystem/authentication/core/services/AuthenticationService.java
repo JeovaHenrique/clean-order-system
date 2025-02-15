@@ -1,12 +1,14 @@
 package com.cleanordersystem.authentication.core.services;
 
-import com.cleanordersystem.authentication.adapters.request.dto.LoginRequest;
-import com.cleanordersystem.authentication.adapters.request.dto.RefreshTokenRequest;
-import com.cleanordersystem.authentication.adapters.request.dto.RegisterRequest;
-import com.cleanordersystem.authentication.adapters.response.AuthenticationResponse;
-import com.cleanordersystem.authentication.adapters.response.LogoutResponse;
+import com.cleanordersystem.authentication.adapters.in.dto.LoginRequest;
+import com.cleanordersystem.authentication.adapters.in.dto.RefreshTokenRequest;
+import com.cleanordersystem.authentication.adapters.in.dto.RegisterRequest;
+import com.cleanordersystem.authentication.adapters.out.AuthenticationResponse;
+import com.cleanordersystem.authentication.adapters.out.LogoutResponse;
+import com.cleanordersystem.authentication.config.security.JwtService;
 import com.cleanordersystem.authentication.core.domain.models.User;
-import com.cleanordersystem.authentication.core.domain.ports.UserRepository;
+import com.cleanordersystem.authentication.core.domain.ports.in.AuthenticationUseCase;
+import com.cleanordersystem.authentication.core.domain.ports.out.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,20 +18,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AuthService {
+public class AuthenticationService implements AuthenticationUseCase {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthenticationService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
 
+    @Override
     public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -43,6 +46,7 @@ public class AuthService {
         return new AuthenticationResponse(accessToken, refreshToken);
     }
 
+    @Override
     public AuthenticationResponse register(RegisterRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
@@ -59,6 +63,7 @@ public class AuthService {
         return new AuthenticationResponse(accessToken, refreshToken);
     }
 
+    @Override
     public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
         String email = jwtService.extractUsername(request.getRefreshToken());
 
@@ -71,6 +76,7 @@ public class AuthService {
         return new AuthenticationResponse(newAccessToken, request.getRefreshToken());
     }
 
+    @Override
     public LogoutResponse logout(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

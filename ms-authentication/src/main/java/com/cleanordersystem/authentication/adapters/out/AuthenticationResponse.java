@@ -1,4 +1,4 @@
-package com.cleanordersystem.authentication.adapters.response;
+package com.cleanordersystem.authentication.adapters.out;
 
 public class AuthenticationResponse {
 
