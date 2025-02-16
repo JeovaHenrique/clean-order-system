@@ -2,7 +2,7 @@ package com.cleanordersystem.authentication.config.security;
 
 import com.cleanordersystem.authentication.adapters.persistence.mappes.UserMapper;
 import com.cleanordersystem.authentication.core.services.CustomUserDetailsService;
-
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +31,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/register", "/auth/login", "/auth/refresh-token").permitAll()
-                        .anyRequest().authenticated());
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
 
         return http.build();
     }
