@@ -7,6 +7,7 @@ import com.cleanordersystem.authentication.adapters.out.AuthenticationResponse;
 import com.cleanordersystem.authentication.adapters.out.LogoutResponse;
 import com.cleanordersystem.authentication.core.domain.ports.in.AuthenticationUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +39,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationUseCase.refreshToken(request));
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public ResponseEntity<LogoutResponse> logout(@RequestParam String email) {
         return ResponseEntity.ok(authenticationUseCase.logout(email));
     }
